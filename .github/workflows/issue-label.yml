@@ -11,6 +11,8 @@ jobs:
     if: >
       (github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '/assign')) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Assign the user or unassign stale assignments
         uses: JasonEtco/slash-assign-action@v0.0.3
@@ -20,7 +22,7 @@ jobs:
           days_until_unassign: 7
           stale_assignment_label: Stale
           assigned_comment: "This issue [has been assigned]({{ comment.html_url }}) to {{ comment.user.login }}!\nIt will become unassigned if it is nott closed within {{ totalDays }} days. A maintainer can also add the **{{ inputs.pin_label }}** label to prevent it from being unassigned."
-          fail_comment: "This issue is already assigned to a contributor."
+         # fail_comment: "This issue is already assigned to a contributor."
 
       - name: Message failure
         if: ${{ failure() }}
